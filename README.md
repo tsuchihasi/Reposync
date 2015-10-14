@@ -12,6 +12,6 @@ git clone git@github.com:tsuchihasi/Reposync.git
 
 2. Configure webhook on upstream repository. Remember to add '/webhook' to your payload URL.
 
-3. Run **server.rb**.
+3. Subscribe the name of downstream organization in **server.rb**, then run **server.rb**.
 
 4. That's it. Your updates will be automatically reflected to the downstream repository.
