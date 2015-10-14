@@ -13,7 +13,7 @@ post '/webhook' do
     wiki = event.include?("gollum")
     ua = "#{request.user_agent}"
     check = ua.include?("GitHub-Hookshot")
-    giturl = sshurl[1..15]
+    giturl = sshurl[0..14]
     wikiurl = giturl + "#{read['repository']['full_name']}" + ".wiki.git"
     downstream = "#{giturl}" + "#{DOWNSTREAM}" + "/#{reponame}"
     puts wikiurl
