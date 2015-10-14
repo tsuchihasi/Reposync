@@ -11,19 +11,20 @@ post '/webhook' do
     wiki = event.include?("gollum")
     ua = "#{request.user_agent}"
     check = ua.include?("GitHub-Hookshot")
+    downstream = "Coiney-SDK"
 
     if check then
       case wiki
       when false then
         `git clone #{svnurl}.git /tmp/webhook/#{reponame}
         cd /tmp/webhook/#{reponame}
-        git remote add downstream https://github.com/Tsuchihasi2/#{reponame}
+        git remote add downstream https://github.com/#{downstream}/#{reponame}
         git push downstream #{ref}:#{ref}
         rm -rf ../#{reponame}`
       when true then
         `git clone #{svnurl}.wiki.git /tmp/webhook/#{reponame}.wiki
         cd /tmp/webhook/#{reponame}.wiki
-        git remote add downstream https://github.com/Tsuchihasi2/#{reponame}.wiki
+        git remote add downstream https://github.com/#{downstream}/#{reponame}.wiki
         git push downstream #{ref}:#{ref}
         rm -rf ../#{reponame}.wiki`
       end
