@@ -13,7 +13,7 @@ post '/webhook' do
     wiki = event.include?("gollum")
     ua = "#{request.user_agent}"
     check = ua.include?("GitHub-Hookshot")
-    wikiurl = sshurl[1,15] + "#{read['repository']['full_name']}" + ".wiki.git"
+    wikiurl = sshurl[1..15] + "#{read['repository']['full_name']}" + ".wiki.git"
     puts wikiurl
 
     if check then
