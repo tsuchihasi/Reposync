@@ -15,14 +15,13 @@ post '/webhook' do
     check = ua.include?("GitHub-Hookshot")
 
     if check then
-      case wiki
-      when false then
+      if wiki == false
         `git clone #{svnurl}.git /tmp/webhook/#{reponame}
         cd /tmp/webhook/#{reponame}
         git remote add downstream https://github.com/#{DOWNSTREAM}/#{reponame}
         git push downstream #{ref}:#{ref}
         rm -rf ../#{reponame}`
-      when true then
+      else
         `git clone #{svnurl}.wiki.git /tmp/webhook/#{reponame}.wiki
         cd /tmp/webhook/#{reponame}.wiki
         git remote add downstream https://github.com/#{DOWNSTREAM}/#{reponame}.wiki
