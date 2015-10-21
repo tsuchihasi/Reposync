@@ -16,22 +16,21 @@ post '/webhook' do
     giturl = sshurl[0..14]
     wikiurl = giturl + "#{read['repository']['full_name']}" + ".wiki.git"
     downstream = "#{giturl}" + "#{DOWNSTREAM}" + "/#{reponame}"
+    puts wikiurl
 
     if check then
-      if event.include?("gollum") == true
+      if wiki == false
+        `git clone #{sshurl} /tmp/webhook/#{reponame}
+        cd /tmp/webhook/#{reponame}
+        git remote add downstream #{downstream}.git
+        git push downstream #{ref}:#{ref}
+        rm -rf ../#{reponame}`
+      else
         `git clone #{wikiurl} /tmp/webhook/#{reponame}.wiki
         cd /tmp/webhook/#{reponame}.wiki
         git remote add downstream #{downstream}.wiki.git
         git push downstream #{ref}:#{ref}
         rm -rf ../#{reponame}.wiki`
-      else
-        `git clone #{sshurl} /tmp/webhook/#{reponame}
-        cd /tmp/webhook/#{reponame}
-        git remote add downstream #{downstream}.git
-        git pull --tags
-        git push --tags downstream #{ref}:#{ref}
-        git push downstream #{ref}:#{ref}
-        rm -rf ../#{reponame}`
       end
     else
           status 401
